@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+        <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+        <link href=""{{ url_for('static', filename='css/font-awesome.css') }}"" rel ="stylesheet">
+        <script src="https://kit.fontawesome.com/ed31e8bca0.js" crossorigin="anonymous"></script>
+        <title> Planner </title>
+    </head>
+    <body>
+    <div class="container">
+        <div class="header">
+            <h1 class="app-title"> Daily Planner</h1>
+            <div id="date"></div>
+            <div id="logreg">
+                <a href = "/login">Login</a>
+                <a href = "/register" id="register">Register</a>
+                <a href = "/logout">Logout</a>
+            </div>
+        </div>
+        <div class="content">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </div>
+    <script>
+        let today = new Date();
+        let options = {weekday:'long', month:'short',day:'numeric'};
+        document.querySelector('#date').innerHTML = today.toLocaleDateString("en-US",options);
+    </script
+    </body>
+</html>

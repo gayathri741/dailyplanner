@@ -1,0 +1,132 @@
+{% extends 'layout.html' %}
+
+{%block body%}
+<div class="input-box">
+    <input autofocus type="time" id="time" placeholder="Time">
+    <input autofocus  name ="task" id="input" type="text" placeholder="Enter a new task">
+    <i class="fa fa-plus-circle"  id = "plusIcon" type="submit" disabled="true"> </i>
+</div>
+
+
+<ul id ="list"> 
+    <!--{% for todo in todos%}
+        <li class="item"> 
+        <i class="fa fa-circle-thin co" job="complete" id=""></i>
+        <p class = "time">  </p>
+        <p class="text"> {{todo}}  </p>
+        <i class="fa fa-trash-o de" job="delete" id=""></i>
+        </li>
+    {% endfor %} -->
+</ul>
+
+
+<script>
+//Elements
+const clear = document.querySelector(".clear");
+const list = document.getElementById("list");
+const input = document.getElementById("input");
+const plus = document.getElementById("plusIcon");
+const taskTime = document.getElementById("time");
+
+//Class names
+const CHECK = "fa-check-circle";
+const UNCHECK = "fa-circle-thin";
+
+
+let LIST = [];
+let id = 0;
+
+
+function addItem(itemAdd, itemTime, id, done,trash){
+    if(trash){return;}
+    const DONE = done ? CHECK:UNCHECK;
+    const LINE = done ? LINE_THROUGH : "";
+    const text  = ` <li class="item">
+                    <i class="fa ${DONE} co" job="complete" id="${id}"></i>
+                    <p class = "time"> ${itemTime} </p>
+                    <p class="text"> ${itemAdd} </p>
+                    <i class="fa fa-trash-o de" job="delete" id="${id}"></i>
+                   </li>
+                `;
+
+    const position ="beforeend";
+    list.insertAdjacentHTML(position,text);
+}
+
+function completeItem(element){
+    element.classList.toggle(CHECK);
+    element.classList.toggle(UNCHECK);
+    element.parentNode.querySelector(".text").classList.toggle(LINE_THROUGH);
+    LIST[element.id].done = LIST[element.id].done ? false : true;
+}
+
+function removeItem(element){
+    element.parentNode.parentNode.removeChild(element.parentNode);
+    LIST[element.id].trash = true;
+}
+
+list.addEventListener("click",function(event){
+    const element = event.target;
+    const elementJob = element.attributes.job.value;
+    if (elementJob == "complete"){
+        completeItem(element);
+    } else if (elementJob =="delete"){
+        removeItem(element);
+    }
+});
+
+document.addEventListener("keyup", function(event){
+    if(event.keyCode ==13){
+        const taskTime = time.value;
+        const itemAdd = input.value;
+        if(itemAdd && taskTime){
+            addItem(itemAdd,taskTime,id,false,false);
+            LIST.push(
+                {
+                    name : itemAdd,
+                    time : taskTime,
+                    id: id,
+                    done: false,
+                    trash:false,
+                }
+            );
+            id++;
+        }
+        input.value ="";
+        taskTime.value = "";
+    }
+});
+
+plus.addEventListener("click", function(event){
+    if(event.target){
+        const itemTime = taskTime.value;
+        const itemAdd = input.value;
+        if(itemAdd && taskTime){
+            addItem(itemAdd,itemTime,id,false,false);
+            LIST.push(
+                {
+                    name : itemAdd,
+                    time : itemTime,
+                    id: id,
+                    done: false,
+                    trash:false,
+                }
+            );
+            id++;
+        }
+        input.value ="";
+        taskTime.value = "";
+    }
+});
+
+    document.querySelector('#input').onkeyup = function(){
+        if (document.querySelector('#input').vale === ''){
+            document.querySelector('#submit').disabled = true;
+        }
+        else {
+            document.querySelector('#submit').disabled = false;
+        }
+
+    }
+</script>
+{%endblock%}
