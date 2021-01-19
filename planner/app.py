@@ -41,7 +41,7 @@ def login():
 
         rows = db.execute("SELECT * FROM registers WHERE username = :username", username=request.form.get("username"))
         if len(rows) != 1 or not check_password_hash(rows[0]["password"], request.form.get("password")):
-            return apology("invalid username and/or password", 403)
+            return apology("Invalid username and/or password", 403)
 
         session["user_id"] = rows[0]["id"]
         return redirect("/")
